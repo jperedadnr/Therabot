@@ -35,9 +35,9 @@ import javafx.scene.layout.VBox;
 public class SenaryView extends View {
 
     public SenaryView() {
-        
+
         getStylesheets().add(QuaternaryView.class.getResource("senary.css").toExternalForm());
-                
+
         Font font = new Font("Comfortaa", 15);
         Font font1 = new Font("Comfortaa", 24);
         // Use a GridPane to create a login interface insights 
@@ -62,16 +62,5 @@ public class SenaryView extends View {
 
         setCenter(grid);
     }
-    
-    
 
-    @Override
-    protected void updateAppBar(AppBar appBar) {
-        appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> getApplication().getDrawer().open()));
-        appBar.setTitleText("Home");
-        appBar.getActionItems().add(MaterialDesignIcon.HOME.button(e -> { 
-            getApplication().getDrawer().open();
-        }));
-    }
-    
 }
