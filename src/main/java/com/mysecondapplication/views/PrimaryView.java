@@ -34,6 +34,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 public class PrimaryView extends View {
@@ -56,21 +57,26 @@ public class PrimaryView extends View {
 
         Label scenetitle = new Label("Log In");
         scenetitle.setFont(font1);
-        grid.add(scenetitle, 0, 0);
+        Pane title = new Pane();
+        title.getChildren().add(scenetitle);
+        grid.add(title, 0, 0);
         Label userID = new Label("User ID:");
         userID.setFont(font);
+        Pane user = new Pane(userID);
         // Show User ID at grid entry (0,1)
-        grid.add(userID, 0, 1);
+        grid.add(user, 0, 1);
         TextField userIDTextField = new TextField();
         userIDTextField.setFont(font);
         userIDTextField.setPromptText("Enter User ID");
         // Show userID text field at grid entry (1,1)
         grid.add(userIDTextField, 1, 1);
+        
+        
         Label pw = new Label("Password:");
         pw.setFont(font);
-
+        Pane pass1 = new Pane(pw);
         // Show Password at grid entry (0,2)
-        grid.add(pw, 0, 2);
+        grid.add(pass1, 0, 2);
         // Use a text field that masks entered password
         PasswordField pwBox = new PasswordField();
         pwBox.setFont(font);
@@ -78,11 +84,11 @@ public class PrimaryView extends View {
         // Show typed in password at grid entry (1,2)
         grid.add(pwBox, 1, 2);
 
-        Button sign = new Button("Click me to create your account!");
+        Button sign = new Button("Create your account");
         sign.setFont(font);
         sign.setStyle("-fx-background-color: rgb(253, 181, 21);");
         // Create a button that when pressed will sign in a user
-        Button btn = new Button("Click me to log in!");
+        Button btn = new Button("Log in");
         btn.setFont(font);
         btn.setStyle("-fx-background-color: rgb(253, 181, 21);");
         // Add the button to an HBox so it can be positioned appropriately
@@ -96,6 +102,7 @@ public class PrimaryView extends View {
         // Display an appropriate message welcoming the user
         Text actiontext = new Text();
         actiontext.setFont(font);
+        actiontext.setFill(Color.rgb(255, 0, 0));
         // Show the message at grid entry (1,4)
         grid.add(actiontext, 1, 4);
 
@@ -147,7 +154,7 @@ public class PrimaryView extends View {
                     //System.out.println("Switch to tertiary view. (change mobile app code above)");
                 } else { // If the user is not known
                     //actiontext.setText("Welcome " + uid + "!");
-                    actiontext.setFill(Color.rgb(255, 0, 0));
+                    
                     actiontext.setText("Unknown log in.");
                 }
             } else if (uid.length() <= 0) {// If user has not typed in User ID and/or Password
@@ -213,28 +220,17 @@ public class PrimaryView extends View {
      */
     public void homeScreen(Sessions sessions, Session session, String uid, String pass) {
 
+        HBox tabBar = bottomNav(sessions, session, uid, pass);
+        
         Font font = new Font("Comfortaa", 15);
         Font font1 = new Font("Comfortaa", 24);
-        Button sessiontime = new Button("Start a session");
-        sessiontime.setFont(font);
-        sessiontime.setStyle("-fx-background-color: rgb(253, 181, 21);");
-        Button settings = new Button("Start a session");
-        settings.setFont(font);
-        settings.setStyle("-fx-background-color: rgb(253, 181, 21);");
+        
         // Use a GridPane to create a login interface insights 
         VBox grid = new VBox();
         //grid.setStyle("-fx-background-color: black;");
         grid.setAlignment(Pos.CENTER);
         Insets snI = new Insets(10, 10, 10, 10);
         grid.setPadding(snI);
-
-        sessiontime.setOnAction(e -> {
-            startSession(sessions, session, uid, pass);
-        });
-
-        settings.setOnAction(e -> {
-            getApplication().getDrawer().open();
-        });
 
         Label scenetitle = new Label("Hello, " + uid + "!");
         scenetitle.setFont(font1);
@@ -303,13 +299,19 @@ public class PrimaryView extends View {
         String analyzedData = analyzeData(sessions);
         Label h5 = new Label(analyzedData);
         h5.setFont(font);
+        //Setting the alignment to the label
+        h5.setTextAlignment(TextAlignment.JUSTIFY);
+        h5.setAlignment(Pos.CENTER);
+        h5.setWrapText(true);
         // scenetitle added earlier : scenetitle = hello name
         // h2 = here are you insights
         // vbox = graph
         // h5 = analyzed data
         // sessiontime = button that starts a session
-        grid.getChildren().addAll(h2, vbox, h5, sessiontime);
+        grid.setPadding(ssnI);
+        grid.getChildren().addAll(h2, vbox, h5);
         setCenter(grid);
+        setBottom(tabBar);
     }
 
     public String analyzeData(Sessions sessions) {
@@ -331,31 +333,31 @@ public class PrimaryView extends View {
         }
         switch (nP - nN) {
             case 4:
-                response = "You have shown amazing progress.\nKeepup the great work! ";
+                response = "You have shown amazing progress. Keepup the great work! ";
                 break;
             case 3:
-                response = "Our sessions have helped you a lot\nsince our first visit! I'm glad I was able to help.";
+                response = "Our sessions have helped you a lot since our first visit! I'm glad I was able to help.";
                 break;
             case 2:
-                response = "You have shown great progress.\nKeep it up!";
+                response = "You have shown great progress. Keep it up!";
                 break;
             case 1:
-                response = "You have been slowly improving\nsince our first session! Keep going, you are doing well.";
+                response = "You have been slowly improving since our first session! Keep going, you are doing well.";
                 break;
             case 0: //                                                                                                                                                       Therabot has recorded your session.                                                                                                                                                                                                                                                                                                                                                                                                                                                               Therabot has recorded your session. 
-                response = "Welcome! I'm Therabot, and\nI'm here to provide you with unlimited,\njudgement-free sessions for you to\nreflect on whatever you would like\nto discuss. I'm so glad that you're\nhere! Feel free to explore the\napp and make it your own by changing\nsettings such as dark mode in the\nAppearance section of the Settings\nMenu. I want you to feel comfortable\nhere, so if you have any questions,\ncomments, or concerns, reach out to\nour CEO and founder, Arietta Goshtasby,\nat apptherabot@gmail.com. Oh, and\none more thing: over time, you will\nstart to see your data pop up here,\nso feel free to start some sessions\nand observe your progress over here!";
+                response = "Welcome! I'm Therabot, and I'm here to provide you with unlimited, judgement-free sessions for you to reflect on whatever you would like to discuss. I'm so glad that you're here! Feel free to explore the app and make it your own by changing settings such as dark mode in the Appearance section of the Settings Menu. I want you to feel comfortable here, so if you have any questions, comments, or concerns, reach out to our CEO and founder, Arietta Goshtasby, at apptherabot@gmail.com. Oh, and one more thing: over time, you will start to see your data pop up here, so feel free to start some sessions and observe your progress over here!";
                 break;
             case -1:
-                response = "It seems that our sessions have not\nhelped your mood increase. Hopefully we can change that!";
+                response = "It seems that our sessions have not helped your mood increase. Hopefully we can change that!";
                 break;
             case -2:
-                response = "Looks like you have not shown much\n improvement since our first session. Let's try again next time!";
+                response = "Looks like you have not shown much  improvement since our first session. Let's try again next time!";
                 break;
             case -3:
-                response = "It appears that your sessions have not\nimproved your mood. Don't give up!";
+                response = "It appears that your sessions have not improved your mood. Don't give up!";
                 break;
             case -4:
-                response = "It seems as though you have not been\nimproving since our first session. Let's keep trying!";
+                response = "It seems as though you have not been improving since our first session. Let's keep trying!";
                 break;
             default:
                 if (nP - nN > 4) {
@@ -370,7 +372,7 @@ public class PrimaryView extends View {
     }
 
     public void startSession(Sessions sessions, Session session, String uid, String pass) {
-
+        HBox tabBar = bottomNav(sessions, session, uid, pass);
         Font font = new Font("Comfortaa", 20);
         Font font1 = new Font("Comfortaa", 15);
 
@@ -402,13 +404,7 @@ public class PrimaryView extends View {
         clear1.setStyle("-fx-background-color: rgb(253, 181, 21);");
         // clear1.setGraphic(new ImageView(image2));
 
-        // Image image4 = new Image(file4);
-        Button exit = new Button("Go back");
-        exit.setFont(font);
-        exit.setStyle("-fx-background-color: rgb(253, 181, 21);");
-        Button settings = new Button("Settings");
-        settings.setFont(font);
-        settings.setStyle("-fx-background-color: rgb(253, 181, 21);");
+        
         Button next2 = new Button("Next");
         next2.setFont(font);
         next2.setStyle("-fx-background-color: rgb(253, 181, 21);");
@@ -437,12 +433,6 @@ public class PrimaryView extends View {
         sb1.setOrientation(Orientation.HORIZONTAL);
         sb1.setMax(100); // divide by 5 to get five moods (shown later)
         sb1.setMin(0);
-        exit.setOnAction(e -> {
-            homeScreen(sessions, session, uid, pass);
-        });
-        settings.setOnAction(e -> {
-            getApplication().getDrawer().open();
-        });
         sb1.valueProperty().addListener(ov -> {
             double feeling1 = sb1.getValue();
             session.setFeeling1(feeling1);
@@ -525,8 +515,9 @@ public class PrimaryView extends View {
         hBox.setAlignment(Pos.CENTER);
         // Include next, clear, and done in the HBox
         hBox.setSpacing(5);
-        hBox.getChildren().addAll(clear, done, next, exit, settings);
+        hBox.getChildren().addAll(clear, done, next);
         gridpane.add(hBox, 1, 4);// Place hBox within the GridPane at column 1 and row 3
+        setBottom(tabBar);
         setCenter(gridpane);
 
         // Take appropriate actions when pressing one of the buttons
@@ -731,6 +722,7 @@ public class PrimaryView extends View {
             // END OF LINES
 
             Pane root = new Pane();
+            
             root.getChildren().addAll(line, line1, line3, line4, line5, line6);
             grid.getChildren().add(root);
 
@@ -741,11 +733,57 @@ public class PrimaryView extends View {
             //scenetitle.setStyle("-fx-text-fill: grey;");
             Label h2 = new Label("Therabot has recorded your session.");
             h2.setFont(font);
+            
             //scenetitle.setStyle("-fx-text-fill: grey;"); 
-            grid.getChildren().addAll(h2, exit, settings);
+            grid.getChildren().addAll(h2);
 
             setCenter(grid);
+            setBottom(tabBar);
         });
+    }
+    
+    public HBox bottomNav(Sessions sessions, Session session, String uid, String pass) {
+        HBox tabBar = new HBox();
+        tabBar.setAlignment(Pos.CENTER);
+        tabBar.setSpacing(40);
+        tabBar.setPrefHeight(50);
+        Label label = new Label("Hello JavaFX World!");
+        Button home = new Button();
+        home.setStyle("-fx-background-radius: 50; -fx-background-color: rgb(0, 0, 0, 0);");
+        Icon homeicon = new Icon(MaterialDesignIcon.HOME);
+        home.setGraphic(homeicon);
+        home.setOnAction(e -> {
+            homeicon.setStyle("-fx-background-color: rgb(253, 181, 21);");
+            homeScreen(sessions, session, uid, pass);
+        });
+        Button newSession = new Button();
+        newSession.setStyle("-fx-background-radius: 50;");
+        newSession.setPrefSize(50, 50);
+        Pane pane = new Pane(newSession);
+        // or ADD_CIRCLE
+        Icon sessionicon = new Icon(MaterialDesignIcon.ADD_CIRCLE_OUTLINE);
+        newSession.setGraphic(sessionicon);
+        newSession.setOnAction(e -> {
+            sessionicon.setStyle("-fx-background-color: rgb(253, 181, 21);");
+            startSession(sessions, session, uid, pass);
+        });
+        Button settings = new Button();
+        settings.setStyle("-fx-background-radius: 50; -fx-background-color: rgb(0, 0, 0, 0);");
+        Icon settingsicon = new Icon(MaterialDesignIcon.SETTINGS);
+        settings.setGraphic(settingsicon);
+        settings.setOnAction(e -> {
+            settingsicon.setStyle("-fx-background-color: rgb(253, 181, 21);");
+            getApplication().getDrawer().open();
+        });
+        tabBar.getChildren().addAll(home, pane, settings);
+        tabBar.setStyle("-fx-background-color: rgb(253, 181, 21, 0.5);");
+        return tabBar;
+    }
+    
+    @Override
+    protected void updateAppBar(AppBar appBar) {
+        appBar.setManaged(false);
+        appBar.setVisible(false);
     }
 
 }
