@@ -53,6 +53,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class SeptenaryView extends View {
 
@@ -68,12 +69,25 @@ public class SeptenaryView extends View {
         grid.setPadding(new Insets(25, 25, 25, 25));
         //grid.setStyle("-fx-background-color: black;");
 
-        Label scenetitle = new Label("Settings");
+        Label scenetitle = new Label("Other Resources");
         scenetitle.setFont(font1);
         //scenetitle.setAlignment(Pos.TOP_LEFT);
         grid.getChildren().add(scenetitle);
         //scenetitle.setStyle("-fx-text-fill: grey;");
-        Label h2 = new Label("This code\nis a\nplaceholder.");
+        Label h2 = new Label("\nNational Alliance on Mental Illness: 800-950-6264\n"
+					+ "Suicide Prevention Line: 1-877-727-4747\n"
+					+ "Crisis Assessment Team: 866-830-6011\n"
+					+ "Crisis Center: 1-800-273-8255\n"
+					+ "Disaster Distress Helpline: 1-800-985-5990\n"
+					+ "Mental Health Hotline: 800-662-4357\n"
+					+ "National Institute of Mental Health: 866-615-6464\n\n"
+					+ "Know that you are not alone in anything that you are feeling. "
+                + "If your mental health is not at it's best, please do not hesitate to reach out to any of the "
+                + "above resources. These resources exist to support you and people just "
+                + "like you.\n\nAll the best,\nThe Therabot Team");
+        h2.setTextAlignment(TextAlignment.JUSTIFY);
+        h2.setAlignment(Pos.CENTER);
+        h2.setWrapText(true);
         h2.setFont(font);
         //scenetitle.setStyle("-fx-text-fill: grey;");
         grid.getChildren().add(h2);
@@ -81,4 +95,10 @@ public class SeptenaryView extends View {
         setCenter(grid);
     }
 
+    @Override
+    protected void updateAppBar(AppBar appBar) {
+        appBar.setNavIcon(MaterialDesignIcon.DRAG_HANDLE.button(e -> getApplication().getDrawer().open()));
+        appBar.setTitleText("Settings/Other Resources");
+    }
+    
 }

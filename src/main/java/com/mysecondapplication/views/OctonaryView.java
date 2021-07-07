@@ -50,12 +50,9 @@ public class OctonaryView extends View {
         setCenter(grid);
     }
 
-    /* @Override
+   @Override
     protected void updateAppBar(AppBar appBar) {
-        appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> getApplication().getDrawer().open()));
-        appBar.setTitleText("Home");
-        appBar.getActionItems().add(MaterialDesignIcon.HOME.button(e -> {
-            getApplication().getDrawer().open();
-        }));
-    }*/
+        appBar.setNavIcon(MaterialDesignIcon.DRAG_HANDLE.button(e -> getApplication().getDrawer().open()));
+        appBar.setTitleText("Settings/Our Website");
+    }
 }

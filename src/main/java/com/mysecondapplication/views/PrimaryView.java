@@ -260,7 +260,7 @@ public class PrimaryView extends View {
             //Specify the label of x-axis
             //Show the x-axis labels on bottom
             //Specify the title of y-axis
-            yAxis.setLabel("Your Mood Change with Therabot!");
+            yAxis.setLabel("Your Mood Change");
             //Instantiate the LineChart class
             LineChart<String, Number> lineChart = new LineChart<String, Number>(xAxis, yAxis);
             //Provide a title for the chart       
@@ -413,18 +413,21 @@ public class PrimaryView extends View {
         next1.setFont(font);
         next1.setStyle("-fx-background-color: rgb(253, 181, 21);");
         // next1.setGraphic(new ImageView(image1));
-        GridPane gridpane = new GridPane();
-        gridpane.setStyle("-fx-background-color: white;");
+        VBox gridpane = new VBox();
         gridpane.setAlignment(Pos.CENTER);
         Insets insets = new Insets(10, 10, 10, 10);
         gridpane.setPadding(insets);
-        gridpane.setVgap(10);
-        Label sFName = new Label("Hi, " + uid + "! Welcome to your judgement-free session. Let's get started.");
-        sFName.setFont(font);
-        Label mood = new Label("Rate your day from 1-100. ");
-        mood.setFont(font);
-        Label talk = new Label("Tell me a bit about your day.");
-        talk.setFont(font);
+        Label sFNam = new Label("Hi, " + uid + "! Welcome to your \njudgement-free session. Let's get\nstarted.\n\n");
+        sFNam.setFont(font);
+        sFNam.setTextAlignment(TextAlignment.JUSTIFY);
+        sFNam.setAlignment(Pos.CENTER);
+        sFNam.setWrapText(true);
+        Pane sFName = new Pane(sFNam);
+    
+        Label mood = new Label("Rate your day from 1-100.\n\n");
+        mood.setFont(font1);
+        Label talk = new Label("\n\nTell me a bit about your day.\n\n");
+        talk.setFont(font1);
         Slider sb1 = new Slider();
         sb1.setShowTickMarks(true);
         sb1.setShowTickLabels(true);
@@ -479,6 +482,7 @@ public class PrimaryView extends View {
             // System.out.println(f1);
         });
         Slider sb2 = new Slider();
+        
         sb2.setShowTickMarks(true);
         sb2.setShowTickLabels(true);
         sb2.setMinorTickCount(5);
@@ -486,6 +490,7 @@ public class PrimaryView extends View {
         sb2.setOrientation(Orientation.HORIZONTAL);
         sb2.setMax(100); // divide by 4
         sb2.setMin(0);
+        
         sb2.valueProperty().addListener(ov -> {
             double feeling2 = sb2.getValue();
             session.setFeeling2(feeling2);
@@ -504,19 +509,22 @@ public class PrimaryView extends View {
 			}*/
             // System.out.println(f2);
         });
+        
         gridpane.setAlignment(Pos.CENTER);
-        gridpane.add(sFName, 0, 0);
-        gridpane.add(mood, 0, 1);
-        gridpane.add(sb1, 1, 1);
-        gridpane.add(talk, 0, 3);
-        gridpane.add(speak, 1, 3);
+        gridpane.getChildren().add(sFName);
+        gridpane.getChildren().add(mood);
+        gridpane.getChildren().add(sb1);
+        gridpane.getChildren().add(talk);
+        gridpane.getChildren().add(speak);
+        Label label = new Label("\n");
         // Include an HBox as a part of the interface
         HBox hBox = new HBox(5);// Leave 5 pixels gap between adjacent objects
         hBox.setAlignment(Pos.CENTER);
         // Include next, clear, and done in the HBox
         hBox.setSpacing(5);
         hBox.getChildren().addAll(clear, done, next);
-        gridpane.add(hBox, 1, 4);// Place hBox within the GridPane at column 1 and row 3
+        gridpane.getChildren().add(label);
+        gridpane.getChildren().add(hBox);// Place hBox within the GridPane at column 1 and row 3
         setBottom(tabBar);
         setCenter(gridpane);
 
@@ -527,7 +535,6 @@ public class PrimaryView extends View {
             String sentence = speak.getText();
             session.addSentence(sentence);
             GridPane gridpane2 = new GridPane();
-            gridpane2.setStyle("-fx-background-color: white;");
             gridpane2.setAlignment(Pos.CENTER);
             Insets inset = new Insets(10, 10, 10, 10);
             gridpane2.setPadding(inset);
@@ -536,10 +543,12 @@ public class PrimaryView extends View {
             if (session.getFeeling1() > 49) {
                 Label talk2 = new Label("Ok, what made today good?");
                 talk2.setFont(font);
+                talk2.setWrapText(true);
                 gridpane2.add(talk2, 0, 0);
             } else {
                 Label talk2 = new Label("Let's take a deep breath. What was not good about today?");
                 talk2.setFont(font);
+                talk2.setWrapText(true);
                 gridpane2.add(talk2, 0, 0);
             }
             // "Ok! Tell me more about your day."
@@ -566,7 +575,6 @@ public class PrimaryView extends View {
             session.addSentence(sentence);
 
             GridPane gridpane1 = new GridPane();
-            gridpane1.setStyle("-fx-background-color: white;");
             gridpane1.setAlignment(Pos.CENTER);
             Insets inset = new Insets(10, 10, 10, 10);
             gridpane1.setPadding(inset);
@@ -584,13 +592,13 @@ public class PrimaryView extends View {
             session.addSentence(sentence);
 
             GridPane gridpane2 = new GridPane();
-            gridpane2.setStyle("-fx-background-color: white;");
             gridpane2.setAlignment(Pos.CENTER);
             Insets inset = new Insets(10, 10, 10, 10);
             gridpane2.setPadding(inset);
             gridpane2.setVgap(10);
             gridpane2.setHgap(10);
             Label talk3 = new Label(msgs[m]);
+            talk3.setWrapText(true);
             talk3.setFont(font);
             gridpane2.add(talk3, 0, 0);
             gridpane2.add(speak, 0, 1);
@@ -727,18 +735,21 @@ public class PrimaryView extends View {
             grid.getChildren().add(root);
 
             Label scenetitle = new Label("Woohoo! You did it!");
-            scenetitle.setFont(font1);
+            scenetitle.setFont(font);
+            scenetitle.setWrapText(true);
             //scenetitle.setAlignment(Pos.TOP_LEFT);
             grid.getChildren().add(scenetitle);
             //scenetitle.setStyle("-fx-text-fill: grey;");
             Label h2 = new Label("Therabot has recorded your session.");
-            h2.setFont(font);
+            h2.setWrapText(true);
+            h2.setFont(font1);
             
             //scenetitle.setStyle("-fx-text-fill: grey;"); 
             grid.getChildren().addAll(h2);
 
             setCenter(grid);
             setBottom(tabBar);
+            m=0;
         });
     }
     
@@ -747,13 +758,11 @@ public class PrimaryView extends View {
         tabBar.setAlignment(Pos.CENTER);
         tabBar.setSpacing(40);
         tabBar.setPrefHeight(50);
-        Label label = new Label("Hello JavaFX World!");
         Button home = new Button();
         home.setStyle("-fx-background-radius: 50; -fx-background-color: rgb(0, 0, 0, 0);");
         Icon homeicon = new Icon(MaterialDesignIcon.HOME);
         home.setGraphic(homeicon);
         home.setOnAction(e -> {
-            homeicon.setStyle("-fx-background-color: rgb(253, 181, 21);");
             homeScreen(sessions, session, uid, pass);
         });
         Button newSession = new Button();
@@ -772,7 +781,6 @@ public class PrimaryView extends View {
         Icon settingsicon = new Icon(MaterialDesignIcon.SETTINGS);
         settings.setGraphic(settingsicon);
         settings.setOnAction(e -> {
-            settingsicon.setStyle("-fx-background-color: rgb(253, 181, 21);");
             getApplication().getDrawer().open();
         });
         tabBar.getChildren().addAll(home, pane, settings);

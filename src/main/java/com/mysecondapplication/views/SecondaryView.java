@@ -20,11 +20,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class SecondaryView extends View {
 
@@ -35,26 +35,36 @@ public class SecondaryView extends View {
         Font font = new Font("Comfortaa", 15);
         Font font1 = new Font("Comfortaa", 24);
         // Use a GridPane to create a login interface insights 
-        VBox grid = new VBox();
+        VBox main = new VBox();
+        main.setAlignment(Pos.CENTER);
+        Insets insets = new Insets(25, 25, 25, 25);
+        main.setPadding(insets);
+        GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setPadding(insets);
+        
         //grid.setStyle("-fx-background-color: black;");
 
-        Label scenetitle = new Label("Settings");
+        Label scenetitle = new Label("Account");
         scenetitle.setFont(font1);
         //scenetitle.setAlignment(Pos.TOP_LEFT);
-        grid.getChildren().add(scenetitle);
+        main.getChildren().add(scenetitle);
         //scenetitle.setStyle("-fx-text-fill: grey;");
-        Label h2 = new Label("Placeholder");
-        h2.setFont(font);
-        Label label = new Label("Hello JavaFX World!");
-        Button button = new Button("Change the World!");
-        button.setGraphic(new Icon(MaterialDesignIcon.LANGUAGE));
-        button.setOnAction(e -> label.setText("Hello from NetBeans!"));
-        //scenetitle.setStyle("-fx-text-fill: grey;");
-        grid.getChildren().addAll(h2, label, button);
+        Icon icon = new Icon(MaterialDesignIcon.MOOD);
+        icon.setScaleX(5);
+        icon.setScaleY(5);
+        icon.setStyle("-fx-fill: rgb(253, 181, 21);");
+        grid.add(icon, 0, 0);
+        
+        main.getChildren().add(grid);
 
-        setCenter(grid);
+        setCenter(main);
+    }
+    
+    @Override
+    protected void updateAppBar(AppBar appBar) {
+        appBar.setNavIcon(MaterialDesignIcon.DRAG_HANDLE.button(e -> getApplication().getDrawer().open()));
+        appBar.setTitleText("Settings/Account");
     }
 
 }

@@ -63,4 +63,10 @@ public class SenaryView extends View {
         setCenter(grid);
     }
 
+    @Override
+    protected void updateAppBar(AppBar appBar) {
+        appBar.setNavIcon(MaterialDesignIcon.DRAG_HANDLE.button(e -> getApplication().getDrawer().open()));
+        appBar.setTitleText("Settings/Help");
+    }
+    
 }
