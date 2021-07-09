@@ -27,6 +27,8 @@ import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.Icon;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import java.awt.Desktop;
+import java.net.URI;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -45,18 +47,31 @@ public class SenaryView extends View {
         grid.setAlignment(Pos.CENTER);
         grid.setPadding(new Insets(25, 25, 25, 25));
         //grid.setStyle("-fx-background-color: black;");
+        String s = "https://therabot.ml/help.html";
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(URI.create(s));
+            } catch (IOException ex) {
+                Logger.getLogger(QuinaryView.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        Label scenetitle = new Label("Settings");
+        Label scenetitle = new Label("Our FAQ Page");
         scenetitle.setFont(font1);
         //scenetitle.setAlignment(Pos.TOP_LEFT);
         grid.getChildren().add(scenetitle);
         //scenetitle.setStyle("-fx-text-fill: grey;");
-        Label h2 = new Label("Your profile\nLight/dark mode\nSee our Terms and Conditions");
+        Label h2 = new Label("\n\n");
         h2.setFont(font);
-        Label label = new Label("Hello JavaFX World!");
-        Button button = new Button("Change the World!");
+        Label label = new Label("https://therabot.ml/help.html");
+        Button button = new Button("See Our FAQ Page");
         button.setGraphic(new Icon(MaterialDesignIcon.LANGUAGE));
-        button.setOnAction(e -> label.setText("Hello from NetBeans!"));
+        button.setOnAction(e -> {
+            try {
+                desktop.browse(URI.create(s));
+            } catch (IOException ex) {
+                Logger.getLogger(QuinaryView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
         //scenetitle.setStyle("-fx-text-fill: grey;");
         grid.getChildren().addAll(h2, label, button);
 

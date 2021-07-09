@@ -60,10 +60,13 @@ public class MySecondApplication extends MobileApplication {
         addViewFactory(SEPTENARY_VIEW, SeptenaryView::new);
         addViewFactory(OCTONARY_VIEW, OctonaryView::new);
         
+        Image icon = new Image("/icon.png");
+        ImageView theraboticon = new ImageView(icon);
+        
         addViewFactory(MobileApplication.SPLASH_VIEW, () -> {
             return new SplashView(HOME_VIEW, 
-            splashView(), 
-            Duration.seconds(10));
+            theraboticon, 
+            Duration.seconds(3));
         });
 
         DrawerManager.buildDrawer(this);
@@ -79,46 +82,6 @@ public class MySecondApplication extends MobileApplication {
 
         scene.getStylesheets().add(MySecondApplication.class.getResource("style.css").toExternalForm());
         ((Stage) scene.getWindow()).getIcons().add(new Image(MySecondApplication.class.getResourceAsStream("/icon.png")));
-    }
-    
-    public Pane splashView() {
-        Pane splash = new Pane();
-        Insets insets = new Insets(10, 10, 10, 10);
-        splash.setPadding(insets);
-        Image icon = new Image("/icon.png");
-        ImageView theraboticon = new ImageView(icon);
-        int iconwidth = (int) icon.getWidth();
-	int iconheight = (int) icon.getHeight();
-		//Create an ImageView object from the icon
-		//Create a Pane object
-
-        //Bring the icon in the pane
-		
-		//Position the icon with it upper-left corner at (100,100) of pane
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-	int sw = (int)size.getWidth();
-	int sh = (int) size.getHeight();
-        int sw2 = sw/2;
-        int sh2 = sh/2;    
-        System.out.println(sw2+ " " +sh2);
-	theraboticon.setX(sw2);
-        theraboticon.setY(sh2);
-        
-//        Label label = new Label("Therabot");
-//        label.setTextAlignment(TextAlignment.JUSTIFY);
-//        label.setAlignment(Pos.CENTER);
-//        label.setWrapText(true);
-//        Label lab = new Label("A Self-Reflection Application");
-//        lab.setTextAlignment(TextAlignment.JUSTIFY);
-//        lab.setAlignment(Pos.CENTER);
-//        lab.setWrapText(true);
-        
-//        splash.getChildren().add(label);
-//        splash.getChildren().add(lab);
-        splash.getChildren().add(theraboticon);
-		//Create a scene of width=iconwidth+200 and height=iconheight+200 containing the pane
-     
-        return splash;
     }
 
     public static void main(String args[]) {

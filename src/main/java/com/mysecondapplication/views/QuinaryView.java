@@ -28,6 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 public class QuinaryView extends View {
@@ -46,19 +47,19 @@ public class QuinaryView extends View {
         grid.setPadding(new Insets(25, 25, 25, 25));
         //grid.setStyle("-fx-background-color: black;");
 
-        Label scenetitle = new Label("Settings");
+        Label scenetitle = new Label("Credits");
         scenetitle.setFont(font1);
+        scenetitle.setTextAlignment(TextAlignment.JUSTIFY);
+        scenetitle.setAlignment(Pos.CENTER);
+        scenetitle.setWrapText(true);
         //scenetitle.setAlignment(Pos.TOP_LEFT);
         grid.getChildren().add(scenetitle);
-        //scenetitle.setStyle("-fx-text-fill: grey;");
-        Label h2 = new Label("Placeholder");
+        Label h2 = new Label("\n\n\nAll the best,\nThe Therabot Team");
+        h2.setTextAlignment(TextAlignment.JUSTIFY);
+        h2.setAlignment(Pos.CENTER);
+        h2.setWrapText(true);
         h2.setFont(font);
-        Label label = new Label("Hello JavaFX World!");
-        Button button = new Button("Change the World!");
-        button.setGraphic(new Icon(MaterialDesignIcon.LANGUAGE));
-        button.setOnAction(e -> label.setText("Hello from NetBeans!"));
-        //scenetitle.setStyle("-fx-text-fill: grey;");
-        grid.getChildren().addAll(h2, label, button);
+        grid.getChildren().add(h2);
 
         setCenter(grid);
     }

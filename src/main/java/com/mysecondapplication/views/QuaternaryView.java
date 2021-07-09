@@ -34,6 +34,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import com.mysecondapplication.views.Session;
+import com.mysecondapplication.views.Sessions;
 import javafx.scene.text.Text;
 
 public class QuaternaryView extends View {
@@ -61,6 +63,9 @@ public class QuaternaryView extends View {
         h2.setWrapText(true);
         h2.setFont(font);
         //scenetitle.setStyle("-fx-text-fill: grey;");
+//        if(Session.getMode() = true) {
+//            
+//        }
         Pane mode = mode();
         grid.getChildren().addAll(h2, mode);
         
@@ -88,6 +93,8 @@ public class QuaternaryView extends View {
                 button.setText("Light Mode");
                 button.setOnMousePressed( b -> {
                     light = true;
+                    button.setText("This button has been disabled due to\nspam concerns. Check back later!");
+                    button.setWrapText(true);
                     LIGHT.assignTo(button.getScene());
                 });
             });
@@ -99,6 +106,8 @@ public class QuaternaryView extends View {
                 button.setText("Dark Mode");
                     button.setOnMousePressed( b -> {
                     light = false;
+                    button.setText("This button has been disabled due to\nspam concerns. Check back later!");
+                    button.setWrapText(true);
                     DARK.assignTo(button.getScene());
                 });
             });

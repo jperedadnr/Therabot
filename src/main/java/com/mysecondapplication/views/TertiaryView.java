@@ -49,20 +49,25 @@ public class TertiaryView extends View {
         grid.setAlignment(Pos.CENTER);
         grid.setPadding(new Insets(25, 25, 25, 25));
         //grid.setStyle("-fx-background-color: black;");
+        String s = "https://therabot.ml/tos.html";
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(URI.create(s));
+            } catch (IOException ex) {
+                Logger.getLogger(QuinaryView.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         Label scenetitle = new Label("Our Terms of Service");
         scenetitle.setFont(font1);
         //scenetitle.setAlignment(Pos.TOP_LEFT);
         grid.getChildren().add(scenetitle);
         //scenetitle.setStyle("-fx-text-fill: grey;");
-        Label h2 = new Label("\n");
+        Label h2 = new Label("\n\n");
         h2.setFont(font);
-        Label label = new Label("\n");
+        Label label = new Label("https://therabot.ml/tos.html");
         Button button = new Button("View our Terms of Service");
         button.setGraphic(new Icon(MaterialDesignIcon.LANGUAGE));
         button.setOnAction(e -> {
-            String s = "https://termsandconditionsfortherabot.5pengoo.repl.co/";
-            Desktop desktop = Desktop.getDesktop();
             try {
                 desktop.browse(URI.create(s));
             } catch (IOException ex) {
@@ -78,7 +83,7 @@ public class TertiaryView extends View {
     @Override
     protected void updateAppBar(AppBar appBar) {
         appBar.setNavIcon(MaterialDesignIcon.DRAG_HANDLE.button(e -> getApplication().getDrawer().open()));
-        appBar.setTitleText("Settings/Terms & Conditions");
+        appBar.setTitleText("Settings/Terms of Service");
     }
 
 }

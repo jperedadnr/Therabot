@@ -5,9 +5,12 @@ import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.BottomNavigation;
 import com.gluonhq.charm.glisten.control.FloatingActionButton;
+import com.gluonhq.charm.glisten.control.Icon;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
@@ -36,16 +39,33 @@ public class OctonaryView extends View {
         grid.setAlignment(Pos.CENTER);
         grid.setPadding(new Insets(25, 25, 25, 25));
         //grid.setStyle("-fx-background-color: black;");
+        String s = "https://therabot.ml";
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(URI.create(s));
+            } catch (IOException ex) {
+                Logger.getLogger(QuinaryView.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        Label scenetitle = new Label("Settings");
+        Label scenetitle = new Label("Our Website");
         scenetitle.setFont(font1);
         //scenetitle.setAlignment(Pos.TOP_LEFT);
         grid.getChildren().add(scenetitle);
         //scenetitle.setStyle("-fx-text-fill: grey;");
-        Label h2 = new Label("This code\nis a\nplaceholder.");
+        Label h2 = new Label("\n\n");
         h2.setFont(font);
+        Label label = new Label("https://therabot.ml");
+        Button button = new Button("Visit Our Website!");
+        button.setGraphic(new Icon(MaterialDesignIcon.ASSIGNMENT));
+        button.setOnAction(e -> {
+            try {
+                desktop.browse(URI.create(s));
+            } catch (IOException ex) {
+                Logger.getLogger(QuinaryView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
         //scenetitle.setStyle("-fx-text-fill: grey;");
-        grid.getChildren().add(h2);
+        grid.getChildren().addAll(h2, label, button);
 
         setCenter(grid);
     }

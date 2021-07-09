@@ -30,6 +30,7 @@ public class Session implements Serializable {
 	 */
 	private String userid = "";
 	private String password = "";
+        private boolean light = true;
 	private Date date = new Date();
 	private Date time = new Date();
 	private double feeling1 = 0;
@@ -55,6 +56,7 @@ public class Session implements Serializable {
 	public Session(String id, String pass) {
 		userid = id;
 		password = pass;
+                
 		date = new Date();
 	}
 
@@ -72,6 +74,25 @@ public class Session implements Serializable {
 			return true;
 		else
 			return false;
+	}
+        
+        /**
+	 * Reset mode of user for this session: The method receives a mode (light or dark)  
+	 * and replaces current mode with the received mode.
+	 * 
+	 * @param dark the new mode
+	 */
+	public void setMode(boolean dark) {
+		light = dark;
+	}
+
+	/**
+	 * Get mode (light or dark) of the user for this session
+	 * 
+	 * @return mode of user for this session
+	 */
+	public boolean getMode() {
+		return light;
 	}
 
 	/**

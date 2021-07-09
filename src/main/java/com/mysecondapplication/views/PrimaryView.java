@@ -9,6 +9,8 @@ import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.cloudlink.enterprise.sdk.javaee.CloudLinkClient;
 import com.gluonhq.cloudlink.enterprise.sdk.javaee.CloudLinkClientConfig;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -17,6 +19,7 @@ import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -26,6 +29,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -54,6 +63,31 @@ public class PrimaryView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         //grid.setStyle("-fx-background-color: white;");
+        
+        // Read in the image to be used as background to the pane
+	FileInputStream inputstream;
+        try {
+            inputstream = new FileInputStream("C:/Users/Arietta Goshtasby/Desktop/therabot stuff/newbackground.png");
+            Image image = new Image(inputstream);
+        inputstream.close();
+	// Specify position in pane to paste the image
+	BackgroundPosition backgroundPosition = new BackgroundPosition(
+            // Fill area starting from upper-left corner
+            Side.LEFT, 0, false, Side.TOP, 0, false);
+        // Associate the image with the background
+	BackgroundImage backgroundImage = new BackgroundImage(image,
+	// If image is too small, repeat it horizontally
+	// and vertically as needed to fill the area
+	BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, 
+            backgroundPosition, BackgroundSize.DEFAULT);
+	// Associate the background with the grid pane
+	Background background = new Background(backgroundImage);
+	grid.setBackground(background);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PrimaryView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PrimaryView.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         Label scenetitle = new Label("Log In");
         scenetitle.setFont(font1);
@@ -333,7 +367,7 @@ public class PrimaryView extends View {
         }
         switch (nP - nN) {
             case 4:
-                response = "You have shown amazing progress. Keepup the great work! ";
+                response = "You have shown amazing progress. I'm so proud of all that you have accomplished!";
                 break;
             case 3:
                 response = "Our sessions have helped you a lot since our first visit! I'm glad I was able to help.";
@@ -786,7 +820,7 @@ public class PrimaryView extends View {
         tabBar.getChildren().addAll(home, pane, settings);
         tabBar.setStyle("-fx-background-color: rgb(253, 181, 21, 0.5);");
         return tabBar;
-    }
+}
     
     @Override
     protected void updateAppBar(AppBar appBar) {
