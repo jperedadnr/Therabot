@@ -67,7 +67,7 @@ public class PrimaryView extends View {
         // Read in the image to be used as background to the pane
 	FileInputStream inputstream;
         try {
-            inputstream = new FileInputStream("C:/Users/Arietta Goshtasby/Desktop/therabot stuff/newbackground.png");
+            inputstream = new FileInputStream("src/main/resources/newbackground.png");
             Image image = new Image(inputstream);
         inputstream.close();
 	// Specify position in pane to paste the image
