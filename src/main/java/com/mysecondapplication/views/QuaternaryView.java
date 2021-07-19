@@ -74,11 +74,14 @@ public class QuaternaryView extends View {
     
     // flag boolean based on current setting???
     
+    //Session session = new Session(id, pass);
+    
     public Pane mode() {
         Pane but = new Pane();
         CheckBox button = new CheckBox();
         if("LIGHT".equals(but.getScene())) {
             light = true;
+            //session.setMode(light);
         } else if("DARK".equals(but.getScene())) {
             light = false;
         } else {

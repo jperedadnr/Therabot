@@ -30,7 +30,6 @@ public class Session implements Serializable {
 	 */
 	private String userid = "";
 	private String password = "";
-        private boolean light = true;
 	private Date date = new Date();
 	private Date time = new Date();
 	private double feeling1 = 0;
@@ -74,25 +73,6 @@ public class Session implements Serializable {
 			return true;
 		else
 			return false;
-	}
-        
-        /**
-	 * Reset mode of user for this session: The method receives a mode (light or dark)  
-	 * and replaces current mode with the received mode.
-	 * 
-	 * @param dark the new mode
-	 */
-	public void setMode(boolean dark) {
-		light = dark;
-	}
-
-	/**
-	 * Get mode (light or dark) of the user for this session
-	 * 
-	 * @return mode of user for this session
-	 */
-	public boolean getMode() {
-		return light;
 	}
 
 	/**
@@ -215,11 +195,10 @@ public class Session implements Serializable {
 	/*/**
 	 * This method prints contents of this session, except for user id and password.
 	 */
-	/*public void showSession() {
+	public void showSession() {
 		System.out.println(date + "");
 		System.out.printf("\t%3.2f\t%3.2f\n", getFeeling1(), getFeeling2());
 		for (String sentence : conversation)
 			System.out.println("\t" + sentence);
-		System.out.println();
-	}*/
+	}
 }

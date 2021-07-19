@@ -37,14 +37,14 @@ public class DrawerManager {
         final Item primaryItem = new ViewItem("Back to Therabot", MaterialDesignIcon.ARROW_BACK.graphic(), PRIMARY_VIEW, ViewStackPolicy.SKIP);
         //final Item secondaryItem = new ViewItem("My Account", MaterialDesignIcon.LOCAL_FLORIST.graphic(), SECONDARY_VIEW);
         final Item tertiaryItem = new ViewItem("Terms of Service", MaterialDesignIcon.ASSIGNMENT.graphic(), TERTIARY_VIEW);
-        final Item quaternaryItem = new ViewItem("Appearance", MaterialDesignIcon.FACE.graphic(), QUATERNARY_VIEW);
+        //final Item quaternaryItem = new ViewItem("Appearance", MaterialDesignIcon.FACE.graphic(), QUATERNARY_VIEW);
         //final Item tertiaryItem = new ViewItem("Home", MaterialDesignIcon.HOME.graphic(), TERTIARY_VIEW);
-        //final Item quinaryItem = new ViewItem("Credits", MaterialDesignIcon.CARD_GIFTCARD.graphic(), QUINARY_VIEW);
+        final Item quinaryItem = new ViewItem("Credits", MaterialDesignIcon.CARD_GIFTCARD.graphic(), QUINARY_VIEW);
         final Item senaryItem = new ViewItem("Help", MaterialDesignIcon.HELP.graphic(), SENARY_VIEW);
         final Item septenaryItem = new ViewItem("Other Resources", MaterialDesignIcon.FAVORITE.graphic(), SEPTENARY_VIEW);
         final Item octonaryItem = new ViewItem("Our Website", MaterialDesignIcon.WEB.graphic(), OCTONARY_VIEW);
         //final Item octonaryItem = new ViewItem("Settings", MaterialDesignIcon.PHONE_ANDROID.graphic(), OCTONARY_VIEW);
-        drawer.getItems().addAll(primaryItem, tertiaryItem, quaternaryItem, senaryItem, septenaryItem, octonaryItem);
+        drawer.getItems().addAll(primaryItem, tertiaryItem, senaryItem, septenaryItem, octonaryItem);
         
     }
 }

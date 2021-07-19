@@ -7,6 +7,8 @@ import com.mysecondapplication.views.Session;
 import com.mysecondapplication.views.Sessions;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import static com.gluonhq.charm.glisten.visual.Theme.DARK;
+import static com.gluonhq.charm.glisten.visual.Theme.LIGHT;
 import com.gluonhq.cloudlink.enterprise.sdk.javaee.CloudLinkClient;
 import com.gluonhq.cloudlink.enterprise.sdk.javaee.CloudLinkClientConfig;
 import java.io.FileInputStream;
@@ -51,6 +53,7 @@ public class PrimaryView extends View {
     Sessions sessions;
     Session session;
     int m = 0;
+    VBox grid1 = new VBox();
 
     public PrimaryView() {
         getStylesheets().add(PrimaryView.class.getResource("primary.css").toExternalForm());
@@ -63,26 +66,26 @@ public class PrimaryView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         //grid.setStyle("-fx-background-color: white;");
-        
+
         // Read in the image to be used as background to the pane
-	FileInputStream inputstream;
+        FileInputStream inputstream;
         try {
             inputstream = new FileInputStream("src/main/resources/newbackground.png");
             Image image = new Image(inputstream);
-        inputstream.close();
-	// Specify position in pane to paste the image
-	BackgroundPosition backgroundPosition = new BackgroundPosition(
-            // Fill area starting from upper-left corner
-            Side.LEFT, 0, false, Side.TOP, 0, false);
-        // Associate the image with the background
-	BackgroundImage backgroundImage = new BackgroundImage(image,
-	// If image is too small, repeat it horizontally
-	// and vertically as needed to fill the area
-	BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, 
-            backgroundPosition, BackgroundSize.DEFAULT);
-	// Associate the background with the grid pane
-	Background background = new Background(backgroundImage);
-	grid.setBackground(background);
+            inputstream.close();
+            // Specify position in pane to paste the image
+            BackgroundPosition backgroundPosition = new BackgroundPosition(
+                    // Fill area starting from upper-left corner
+                    Side.LEFT, 0, false, Side.TOP, 0, false);
+            // Associate the image with the background
+            BackgroundImage backgroundImage = new BackgroundImage(image,
+                    // If image is too small, repeat it horizontally
+                    // and vertically as needed to fill the area
+                    BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
+                    backgroundPosition, BackgroundSize.DEFAULT);
+            // Associate the background with the grid pane
+            Background background = new Background(backgroundImage);
+            grid.setBackground(background);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PrimaryView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -104,8 +107,7 @@ public class PrimaryView extends View {
         userIDTextField.setPromptText("Enter User ID");
         // Show userID text field at grid entry (1,1)
         grid.add(userIDTextField, 1, 1);
-        
-        
+
         Label pw = new Label("Password:");
         pw.setFont(font);
         Pane pass1 = new Pane(pw);
@@ -143,15 +145,14 @@ public class PrimaryView extends View {
         // Put the grid in a 400x300 scene and display the scene
         grid.setAlignment(Pos.CENTER);
         setCenter(grid);
+        
+        VBox vbox = new VBox();
 
         // Event handler for btn1
         btn.setOnAction(e -> {
             // Get User ID and Password
             String uid = userIDTextField.getText();
             String pass = pwBox.getText();
-
-            // Create an empty list of sessions
-            Sessions sessions = null;
 
             // If user has typed in both User ID and Password
             if (uid.length() > 0 && pass.length() > 0) {
@@ -163,6 +164,7 @@ public class PrimaryView extends View {
                     try {
                         // If a returning user, read in past sessions from file
                         sessions = new Sessions(filename);
+                        System.out.println(sessions.getMode());
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(PrimaryView.class.getName()).log(Level.SEVERE, null, ex);
                         System.out.println("Logger in btn; log in");
@@ -178,17 +180,18 @@ public class PrimaryView extends View {
                     try {
                         // If a returning user, read in past sessions from file
                         sessions = new Sessions(filename);
+                        System.out.println(sessions.getMode());
                         homeScreen(sessions, session, uid, pass);
                     } catch (IOException ioe) {
                         System.out.println("IOException in btn; log in");
                     } catch (ClassNotFoundException ee) {
                         System.out.println("ClassNotFoundException in btn; log in");
                     }
-                homeScreen(sessions, session, uid, pass);
+                    homeScreen(sessions, session, uid, pass);
                     //System.out.println("Switch to tertiary view. (change mobile app code above)");
                 } else { // If the user is not known
                     //actiontext.setText("Welcome " + uid + "!");
-                    
+
                     actiontext.setText("Unknown log in.");
                 }
             } else if (uid.length() <= 0) {// If user has not typed in User ID and/or Password
@@ -251,25 +254,81 @@ public class PrimaryView extends View {
      * @param session current session
      * @param uid user id
      * @param pass password
+     * @param grid VBox so Scene is not null
      */
     public void homeScreen(Sessions sessions, Session session, String uid, String pass) {
+        
+        VBox grid1 = new VBox();
 
         HBox tabBar = bottomNav(sessions, session, uid, pass);
-        
+
         Font font = new Font("Comfortaa", 15);
         Font font1 = new Font("Comfortaa", 24);
-        
+
         // Use a GridPane to create a login interface insights 
-        VBox grid = new VBox();
+        
         //grid.setStyle("-fx-background-color: black;");
-        grid.setAlignment(Pos.CENTER);
+        grid1.setAlignment(Pos.CENTER);
         Insets snI = new Insets(10, 10, 10, 10);
-        grid.setPadding(snI);
+        grid1.setPadding(snI);
+        
+        Button button = new Button();
+        grid1.getChildren().add(button);
+        if (sessions.getMode() == true) {
+            grid1.sceneProperty().addListener((obs, ov, nv) -> { if (nv != null) { System.out.println("YAY! nv is not null!"); LIGHT.assignTo(nv); } else System.out.println("nv is null"); }); // ERROR IS POINTING TO THIS LINE
+            button.setGraphic(new Icon(MaterialDesignIcon.BRIGHTNESS_2));
+            button.setStyle("-fx-text-fill: #000;");
+        } else {
+            grid1.sceneProperty().addListener((obs, ov, nv) -> { if (nv != null) { System.out.println("YAY! nv is not null!"); DARK.assignTo(nv); } else System.out.println("nv is null");});
+            button.setGraphic(new Icon(MaterialDesignIcon.WB_SUNNY));
+            button.setStyle("-fx-text-fill: #fdb515;");
+        }
+        
+        button.setOnMousePressed(e -> {
+            if (sessions.getMode() == true) {
+                button.setStyle("-fx-text-fill: #fdb515;");
+                System.out.println(sessions.getMode());
+                sessions.setMode(false);
+                System.out.println(sessions.getMode());
+                DARK.assignTo(grid1.getScene());
+                System.out.println(sessions.getMode());
+                button.setGraphic(new Icon(MaterialDesignIcon.WB_SUNNY));
+                /*button.setOnMousePressed(eh -> {
+                    light = false;
+                    DARK.assignTo(button.getScene());
+                    button.setText("Light Mode");
+                    button.setOnMousePressed(b -> {
+                        light = true;
+                        button.setText("This button has been disabled due to\nspam concerns. Check back later!");
+                        button.setWrapText(true);
+                        LIGHT.assignTo(button.getScene());
+                    });
+                });*/
+            } else {
+                button.setStyle("-fx-text-fill: #000;");
+                LIGHT.assignTo(grid1.getScene());
+                System.out.println(sessions.getMode());
+                sessions.setMode(true);
+                System.out.println(sessions.getMode());
+                button.setGraphic(new Icon(MaterialDesignIcon.BRIGHTNESS_2));
+                /*button.setOnMousePressed(eh -> {
+                    light = true;
+                    LIGHT.assignTo(button.getScene());
+                    button.setText("Dark Mode");
+                    button.setOnMousePressed(b -> {
+                        light = false;
+                        button.setText("This button has been disabled due to\nspam concerns. Check back later!");
+                        button.setWrapText(true);
+                        DARK.assignTo(button.getScene());
+                    });
+                });*/
+            }
+        });
 
         Label scenetitle = new Label("Hello, " + uid + "!");
         scenetitle.setFont(font1);
         //scenetitle.setAlignment(Pos.TOP_LEFT);
-        grid.getChildren().add(scenetitle);
+        grid1.getChildren().add(scenetitle);
         //scenetitle.setStyle("-fx-text-fill: grey;");
         Label h2 = new Label("Here are your insights for today.");
         h2.setFont(font);
@@ -342,9 +401,9 @@ public class PrimaryView extends View {
         // vbox = graph
         // h5 = analyzed data
         // sessiontime = button that starts a session
-        grid.setPadding(ssnI);
-        grid.getChildren().addAll(h2, vbox, h5);
-        setCenter(grid);
+        grid1.setPadding(ssnI);
+        grid1.getChildren().addAll(h2, vbox, h5);
+        setCenter(grid1);
         setBottom(tabBar);
     }
 
@@ -379,7 +438,7 @@ public class PrimaryView extends View {
                 response = "You have been slowly improving since our first session! Keep going, you are doing well.";
                 break;
             case 0: //                                                                                                                                                       Therabot has recorded your session.                                                                                                                                                                                                                                                                                                                                                                                                                                                               Therabot has recorded your session. 
-                response = "Welcome! I'm Therabot, and I'm here to provide you with unlimited, judgement-free sessions for you to reflect on whatever you would like to discuss. I'm so glad that you're here! Feel free to explore the app and make it your own by changing settings such as dark mode in the Appearance section of the Settings Menu. I want you to feel comfortable here, so if you have any questions, comments, or concerns, reach out to our CEO and founder, Arietta Goshtasby, at apptherabot@gmail.com. Oh, and one more thing: over time, you will start to see your data pop up here, so feel free to start some sessions and observe your progress over here!";
+                response = "Welcome! I'm Therabot, and I'm here to provide you with unlimited, judgement-free sessions for you to reflect on whatever you would like to discuss. I'm so glad that you're here! Feel free to explore the app and make it your own. I want you to feel comfortable here, so if you have any questions, comments, or concerns, reach out to our CEO and founder, Arietta Goshtasby, at apptherabot@gmail.com. Oh, and one more thing: over time, you will start to see your data pop up here, so feel free to start some sessions and observe your progress over here!";
                 break;
             case -1:
                 response = "It seems that our sessions have not helped your mood increase. Hopefully we can change that!";
@@ -438,7 +497,6 @@ public class PrimaryView extends View {
         clear1.setStyle("-fx-background-color: rgb(253, 181, 21);");
         // clear1.setGraphic(new ImageView(image2));
 
-        
         Button next2 = new Button("Next");
         next2.setFont(font);
         next2.setStyle("-fx-background-color: rgb(253, 181, 21);");
@@ -457,7 +515,7 @@ public class PrimaryView extends View {
         sFNam.setAlignment(Pos.CENTER);
         sFNam.setWrapText(true);
         Pane sFName = new Pane(sFNam);
-    
+
         Label mood = new Label("Rate your day from 1-100.\n\n");
         mood.setFont(font1);
         Label talk = new Label("\n\nTell me a bit about your day.\n\n");
@@ -516,7 +574,7 @@ public class PrimaryView extends View {
             // System.out.println(f1);
         });
         Slider sb2 = new Slider();
-        
+
         sb2.setShowTickMarks(true);
         sb2.setShowTickLabels(true);
         sb2.setMinorTickCount(5);
@@ -524,7 +582,7 @@ public class PrimaryView extends View {
         sb2.setOrientation(Orientation.HORIZONTAL);
         sb2.setMax(100); // divide by 4
         sb2.setMin(0);
-        
+
         sb2.valueProperty().addListener(ov -> {
             double feeling2 = sb2.getValue();
             session.setFeeling2(feeling2);
@@ -543,7 +601,7 @@ public class PrimaryView extends View {
 			}*/
             // System.out.println(f2);
         });
-        
+
         gridpane.setAlignment(Pos.CENTER);
         gridpane.getChildren().add(sFName);
         gridpane.getChildren().add(mood);
@@ -615,6 +673,7 @@ public class PrimaryView extends View {
             gridpane1.setVgap(10);
             gridpane1.setHgap(10);
             Label newmood = new Label("Take a moment to reflect. How are you feeling after our session?");
+            newmood.setWrapText(true);
             newmood.setFont(font);
             gridpane1.add(newmood, 0, 0);
             gridpane1.add(sb2, 0, 1);
@@ -650,6 +709,7 @@ public class PrimaryView extends View {
         });
 
         next2.setOnAction(e -> {
+            System.out.println(sessions.getMode());
             sessions.addSession(session);
             // Use a GridPane to create a login interface insights 
             VBox grid = new VBox();
@@ -764,7 +824,7 @@ public class PrimaryView extends View {
             // END OF LINES
 
             Pane root = new Pane();
-            
+
             root.getChildren().addAll(line, line1, line3, line4, line5, line6);
             grid.getChildren().add(root);
 
@@ -777,16 +837,16 @@ public class PrimaryView extends View {
             Label h2 = new Label("Therabot has recorded your session.");
             h2.setWrapText(true);
             h2.setFont(font1);
-            
+
             //scenetitle.setStyle("-fx-text-fill: grey;"); 
             grid.getChildren().addAll(h2);
 
             setCenter(grid);
             setBottom(tabBar);
-            m=0;
+            m = 0;
         });
     }
-    
+
     public HBox bottomNav(Sessions sessions, Session session, String uid, String pass) {
         HBox tabBar = new HBox();
         tabBar.setAlignment(Pos.CENTER);
@@ -800,7 +860,8 @@ public class PrimaryView extends View {
             homeScreen(sessions, session, uid, pass);
         });
         Button newSession = new Button();
-        newSession.setStyle("-fx-background-radius: 50;");
+        newSession.setId("newSession");
+        //newSession.setStyle("-fx-background-radius: 50;");
         newSession.setPrefSize(50, 50);
         Pane pane = new Pane(newSession);
         // or ADD_CIRCLE
@@ -820,8 +881,8 @@ public class PrimaryView extends View {
         tabBar.getChildren().addAll(home, pane, settings);
         tabBar.setStyle("-fx-background-color: rgb(253, 181, 21, 0.5);");
         return tabBar;
-}
-    
+    }
+
     @Override
     protected void updateAppBar(AppBar appBar) {
         appBar.setManaged(false);

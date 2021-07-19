@@ -22,6 +22,8 @@ public class Sessions {
 	private ArrayList<Session> sessions = new ArrayList<>();
 	// Filename to save user information
 	private String filename = "";
+        
+        private boolean light = true;
 
 	/**
 	 * The only constructor: It receives a filename and reads user information 
@@ -69,6 +71,25 @@ public class Sessions {
 		// Close the byte steam and file
 		oin.close();
 		fin.close();
+	}
+        
+        /**
+	 * Reset mode of user for this session: The method receives a mode (light or dark)  
+	 * and replaces current mode with the received mode.
+	 * 
+	 * @param dark the new mode
+	 */
+	public void setMode(boolean dark) {
+		light = dark;
+	}
+
+	/**
+	 * Get mode (light or dark) of the user for this session
+	 * 
+	 * @return mode of user for this session
+	 */
+	public boolean getMode() {
+		return light;
 	}
 
 	/**
@@ -212,6 +233,7 @@ public class Sessions {
 			ObjectOutputStream oout = new ObjectOutputStream(fout);
 			// Write sessions into file
 			oout.writeObject(sessions);
+                        System.out.println(getMode());
 			// Close output stream and file
 			oout.close();
 			fout.close();
@@ -219,4 +241,13 @@ public class Sessions {
 			System.out.println("Could not save sessions to file: " + filename);
 		}
 	}
+     
+        public void showSessions() {
+		System.out.println("\n" + sessions.get(0).getID() + " Sessions:\n");
+		for (Session session : sessions) {
+			session.showSession();
+                }
+                System.out.println(getMode());
+	}
+        
 }
