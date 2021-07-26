@@ -44,7 +44,7 @@ public class DrawerManager {
         final Item septenaryItem = new ViewItem("Other Resources", MaterialDesignIcon.FAVORITE.graphic(), SEPTENARY_VIEW);
         final Item octonaryItem = new ViewItem("Our Website", MaterialDesignIcon.WEB.graphic(), OCTONARY_VIEW);
         //final Item octonaryItem = new ViewItem("Settings", MaterialDesignIcon.PHONE_ANDROID.graphic(), OCTONARY_VIEW);
-        drawer.getItems().addAll(primaryItem, tertiaryItem, senaryItem, septenaryItem, octonaryItem);
+        drawer.getItems().addAll(primaryItem, tertiaryItem, quinaryItem, senaryItem, septenaryItem, octonaryItem);
         
     }
 }

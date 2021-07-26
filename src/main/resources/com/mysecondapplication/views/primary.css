@@ -2,6 +2,11 @@
 
 }
 
+#speak {
+    -fx-text-fill: #fdb515;
+    -fx-text-inner-color: #fdb515;
+}
+
 #newSession{
     -fx-background-radius: 50px;
     -fx-background-color: rgb(253, 181, 21);

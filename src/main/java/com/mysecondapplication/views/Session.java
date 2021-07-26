@@ -32,6 +32,7 @@ public class Session implements Serializable {
 	private String password = "";
 	private Date date = new Date();
 	private Date time = new Date();
+        private boolean light = true;
 	private double feeling1 = 0;
 	private double feeling2 = 0;
 	private ArrayList<String> conversation = new ArrayList<>();
@@ -73,6 +74,24 @@ public class Session implements Serializable {
 			return true;
 		else
 			return false;
+	}
+        
+        /**
+	 * New method to set the value of light
+	 * 
+	 * @return value of light
+	 */
+	public boolean getMode() {
+		return light;
+	}
+	
+	/**
+	 * Newly added method to return the value of light
+	 * 
+	 * @param mode
+	 */
+	public void setMode(boolean mode) {
+		light = mode;
 	}
 
 	/**
@@ -200,5 +219,7 @@ public class Session implements Serializable {
 		System.out.printf("\t%3.2f\t%3.2f\n", getFeeling1(), getFeeling2());
 		for (String sentence : conversation)
 			System.out.println("\t" + sentence);
+                System.out.println("\t mode: "+light);
+                System.out.println();
 	}
 }

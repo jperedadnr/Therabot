@@ -1,3 +1,20 @@
+# Forward by Arietta Goshtasby, Founder of Therabot
+
+Hi! Welcome to the repository for my first app, Therabot. 
+Enclosed in this repo are the messy lines of code that create this program.
+Yes, each line may not be formatted or commented perfectly.
+But life is imperfect. And this is what it took to get me here.
+This is the work of many, many months and many, many days of my summer spent inside.
+Please enjoy.
+-Arietta
+
+## Description of the app.
+
+Therabot is a self-reflection app that helps users process their day. It has been scientifically proven to help improve users' mood.
+To learn more about Therabot, visit [here] (https://www.invisalign.com/changemakers/winners/arietta-goshtasby) or [here] (https://ocsef.org/orange-county-high-school-student-develops-an-app-to-help-teenagers-deal-with-anxiety/).
+
+
+
 # Gluon Mobile - Multi View
 
 Gluon Mobile Applications are Java application written in JavaFX.

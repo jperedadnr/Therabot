@@ -164,7 +164,6 @@ public class PrimaryView extends View {
                     try {
                         // If a returning user, read in past sessions from file
                         sessions = new Sessions(filename);
-                        System.out.println(sessions.getMode());
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(PrimaryView.class.getName()).log(Level.SEVERE, null, ex);
                         System.out.println("Logger in btn; log in");
@@ -180,7 +179,6 @@ public class PrimaryView extends View {
                     try {
                         // If a returning user, read in past sessions from file
                         sessions = new Sessions(filename);
-                        System.out.println(sessions.getMode());
                         homeScreen(sessions, session, uid, pass);
                     } catch (IOException ioe) {
                         System.out.println("IOException in btn; log in");
@@ -273,7 +271,9 @@ public class PrimaryView extends View {
         grid1.setPadding(snI);
         
         Button button = new Button();
-        grid1.getChildren().add(button);
+        
+        if(sessions.isUserKnown(session)) {
+            grid1.getChildren().add(button);
         if (sessions.getMode() == true) {
             grid1.sceneProperty().addListener((obs, ov, nv) -> { if (nv != null) { System.out.println("YAY! nv is not null!"); LIGHT.assignTo(nv); } else System.out.println("nv is null"); }); // ERROR IS POINTING TO THIS LINE
             button.setGraphic(new Icon(MaterialDesignIcon.BRIGHTNESS_2));
@@ -283,15 +283,20 @@ public class PrimaryView extends View {
             button.setGraphic(new Icon(MaterialDesignIcon.WB_SUNNY));
             button.setStyle("-fx-text-fill: #fdb515;");
         }
+        }
         
         button.setOnMousePressed(e -> {
+            if(sessions.isUserKnown(session)) {
             if (sessions.getMode() == true) {
+                System.out.println("Mode is (it should be) true: " + sessions.getMode());
+		boolean mode = sessions.getMode(); //Save in mode the value of light in sessions
+		System.out.println("Current mode is "+mode);
+		mode = !mode; // Reverse the value in mode
+		System.out.println("Set mode to "+mode);
+		sessions.setMode(mode); //Set the value of light in sessions to value in mode
+		sessions.saveSessions();	
                 button.setStyle("-fx-text-fill: #fdb515;");
-                System.out.println(sessions.getMode());
-                sessions.setMode(false);
-                System.out.println(sessions.getMode());
                 DARK.assignTo(grid1.getScene());
-                System.out.println(sessions.getMode());
                 button.setGraphic(new Icon(MaterialDesignIcon.WB_SUNNY));
                 /*button.setOnMousePressed(eh -> {
                     light = false;
@@ -305,11 +310,15 @@ public class PrimaryView extends View {
                     });
                 });*/
             } else {
+                System.out.println("Mode is (it should be) false: " + sessions.getMode());
+		boolean mode = sessions.getMode(); //Save in mode the value of light in sessions
+		System.out.println("Current mode is "+mode);
+		mode = !mode; // Reverse the value in mode
+		System.out.println("Set mode to "+mode);
+		sessions.setMode(mode); //Set the value of light in sessions to value in mode
+                sessions.saveSessions();
                 button.setStyle("-fx-text-fill: #000;");
                 LIGHT.assignTo(grid1.getScene());
-                System.out.println(sessions.getMode());
-                sessions.setMode(true);
-                System.out.println(sessions.getMode());
                 button.setGraphic(new Icon(MaterialDesignIcon.BRIGHTNESS_2));
                 /*button.setOnMousePressed(eh -> {
                     light = true;
@@ -322,6 +331,11 @@ public class PrimaryView extends View {
                         DARK.assignTo(button.getScene());
                     });
                 });*/
+            }
+            } else {
+		Label l = new Label("Please complete a session before changing mode.");
+                l.setWrapText(true);
+                grid1.getChildren().add(l);
             }
         });
 
@@ -424,6 +438,8 @@ public class PrimaryView extends View {
                 nN++;
             }
         }
+        
+        if(n != 1) {
         switch (nP - nN) {
             case 4:
                 response = "You have shown amazing progress. I'm so proud of all that you have accomplished!";
@@ -447,7 +463,7 @@ public class PrimaryView extends View {
                 response = "Looks like you have not shown much  improvement since our first session. Let's try again next time!";
                 break;
             case -3:
-                response = "It appears that your sessions have not improved your mood. Don't give up!";
+                response = "It appears that your sessions have not improved your mood. Ion't give up!";
                 break;
             case -4:
                 response = "It seems as though you have not been improving since our first session. Let's keep trying!";
@@ -461,6 +477,9 @@ public class PrimaryView extends View {
                     response = "Sorry, there's a problem. Please check back tomorrow!";
                 }
         }
+        } else {
+            response = "I don't have enough data to calculate a progress report yet, but once you complete your second session, I will display it here!";
+        }
         return response;
     }
 
@@ -470,6 +489,12 @@ public class PrimaryView extends View {
         Font font1 = new Font("Comfortaa", 15);
 
         TextField speak = new TextField();
+        speak.setId("speak");
+//        speak.setStyle("-fx-text-fill: white;");
+//        speak.setStyle("-fx-text-inner-color: white;");
+//        if("DARK".equals(grid1.getScene())) {
+//            speak.setStyle("-fx-text-fill: white;");
+//        }
         speak.setPromptText("you got this!");
         String[] msgs = new String[4];
         msgs[1] = "What was something new that you learned today?";
@@ -709,8 +734,9 @@ public class PrimaryView extends View {
         });
 
         next2.setOnAction(e -> {
-            System.out.println(sessions.getMode());
+            //System.out.println(sessions.getMode());
             sessions.addSession(session);
+            sessions.saveSessions();
             // Use a GridPane to create a login interface insights 
             VBox grid = new VBox();
             grid.setAlignment(Pos.CENTER);

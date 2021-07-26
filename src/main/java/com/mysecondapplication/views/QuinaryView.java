@@ -54,11 +54,18 @@ public class QuinaryView extends View {
         scenetitle.setWrapText(true);
         //scenetitle.setAlignment(Pos.TOP_LEFT);
         grid.getChildren().add(scenetitle);
-        Label h2 = new Label("\n\n\nAll the best,\nThe Therabot Team");
+        Label h1 = new Label("Firstly, thank you to Gluon for providing a free license for this project. Furthermore, I would like to thank the Gluon staff for answering all of my many questions. Similarly, I would also like to thank the creators of Java, JavaFX, computer science, and so forth for setting the precedent for people such as myself to discover the wonders of computer science. Next, I want to extend a very special thank you to my grandfather, Arthur Goshtasby, PhD., for the immense amount of support during this project, as well as fostering my inital spark of interest in coding. Thirdly, thank you to my parents for all of the love and encouragement extended to me during the making of this project. I would also like to thank my friends for lifting me up during times when I felt discouraged. Lastly, I would especially like to thank you, the app user, for allowing my dream to become a reality. You are the reason why I keep going.");
+        h1.setTextAlignment(TextAlignment.JUSTIFY);
+        h1.setAlignment(Pos.CENTER);
+        h1.setWrapText(true);
+        Font small = new Font("Comfortaa", 13);
+        h1.setFont(small);
+        grid.getChildren().add(h1);
+        Label h2 = new Label("\nSincerely,\nArietta Goshtasby, Founder and CEO of Therabot");
         h2.setTextAlignment(TextAlignment.JUSTIFY);
         h2.setAlignment(Pos.CENTER);
         h2.setWrapText(true);
-        h2.setFont(font);
+        h2.setFont(small);
         grid.getChildren().add(h2);
 
         setCenter(grid);

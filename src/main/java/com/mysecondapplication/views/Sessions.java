@@ -74,22 +74,53 @@ public class Sessions {
 	}
         
         /**
-	 * Reset mode of user for this session: The method receives a mode (light or dark)  
-	 * and replaces current mode with the received mode.
+	 * This method receives a session and adds it to sessions. It also updates
+	 * the file containing sessions from the same user.
 	 * 
-	 * @param dark the new mode
+	 * @param session	a session
 	 */
-	public void setMode(boolean dark) {
-		light = dark;
+	public void addSession(Session session) {
+		sessions.add(session);
+	}
+	
+	/**
+	 * Added method to return the required session in sessions
+	 * 
+	 * @param index
+	 * @return session with index "index"
+	 */
+	public Session get(int index) {
+		return sessions.get(index);
+	}
+	
+	/**
+	 * Added method to change the value of light to "mode" in all sessions
+	 * 
+	 * @param mode
+	 */
+	public void setMode(boolean mode) {
+		for (Session session : sessions) {
+			session.setMode(mode);
+		}
+	}
+	
+	/**
+	 * Added method to return the value of light in sessions
+	 * 
+	 * @return value of light in session 0
+	 */
+	public boolean getMode() {
+		return sessions.get(0).getMode();
 	}
 
 	/**
-	 * Get mode (light or dark) of the user for this session
-	 * 
-	 * @return mode of user for this session
+	 * This method prints contents of sessions, except for user's password
 	 */
-	public boolean getMode() {
-		return light;
+	public void showSessions() {
+		System.out.println("\n" + sessions.get(0).getID() + " Sessions:\n");
+		for (Session session : sessions) {
+			session.showSession();
+		}
 	}
 
 	/**
@@ -114,17 +145,6 @@ public class Sessions {
 	public double getSize() {
 		int size = sessions.size();
 		return size;
-	}
-
-	/**
-	 * This method receives a session and adds it to sessions. It also updates
-	 * the file containing sessions from the same user.
-	 * 
-	 * @param session	a session
-	 */
-	public void addSession(Session session) {
-		sessions.add(session);
-		saveSessions();
 	}
 
 	/*/**
@@ -223,31 +243,20 @@ public class Sessions {
 		return j;
 	}
 
-
-	/**
+/**
 	 * This method saves contents of sessions to file: filename
 	 */
-	private void saveSessions() {
+	public void saveSessions() {
 		try {// Open output file and output byte stream
 			FileOutputStream fout = new FileOutputStream(filename);
 			ObjectOutputStream oout = new ObjectOutputStream(fout);
 			// Write sessions into file
 			oout.writeObject(sessions);
-                        System.out.println(getMode());
 			// Close output stream and file
 			oout.close();
 			fout.close();
 		} catch (IOException ioe) {
 			System.out.println("Could not save sessions to file: " + filename);
 		}
-	}
-     
-        public void showSessions() {
-		System.out.println("\n" + sessions.get(0).getID() + " Sessions:\n");
-		for (Session session : sessions) {
-			session.showSession();
-                }
-                System.out.println(getMode());
-	}
-        
+	}   
 }
