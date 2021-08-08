@@ -1,22 +1,11 @@
 package com.mysecondapplication.views;
 
-import com.gluonhq.charm.glisten.application.MobileApplication;
+
+import com.gluonhq.attach.storage.StorageService;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.Icon;
-import com.mysecondapplication.views.Session;
-import com.mysecondapplication.views.Sessions;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
-import static com.gluonhq.charm.glisten.visual.Theme.DARK;
-import static com.gluonhq.charm.glisten.visual.Theme.LIGHT;
-import com.gluonhq.cloudlink.enterprise.sdk.javaee.CloudLinkClient;
-import com.gluonhq.cloudlink.enterprise.sdk.javaee.CloudLinkClientConfig;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -32,11 +21,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -48,7 +37,25 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.gluonhq.charm.glisten.visual.Theme.DARK;
+import static com.gluonhq.charm.glisten.visual.Theme.LIGHT;
+
 public class PrimaryView extends View {
+
+    private static final File ROOT;
+    static {
+        ROOT = StorageService.create()
+                .flatMap(StorageService::getPrivateStorage)
+                .orElseThrow(() -> new RuntimeException("ERROR: Private storage not found"));
+    }
 
     Sessions sessions;
     Session session;
@@ -158,12 +165,12 @@ public class PrimaryView extends View {
             if (uid.length() > 0 && pass.length() > 0) {
                 Session session = new Session(uid, pass);
                 // CREATE A LOGIN FOR USER
-                String filename = "./" + uid + pass.hashCode() + ".dat";
+                String filename = uid + pass.hashCode() + ".dat";
 
                 try {
                     try {
                         // If a returning user, read in past sessions from file
-                        sessions = new Sessions(filename);
+                        sessions = new Sessions(new File(ROOT, filename).getAbsolutePath());
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(PrimaryView.class.getName()).log(Level.SEVERE, null, ex);
                         System.out.println("Logger in btn; log in");
@@ -178,7 +185,7 @@ public class PrimaryView extends View {
                     System.out.println("User is known");
                     try {
                         // If a returning user, read in past sessions from file
-                        sessions = new Sessions(filename);
+                        sessions = new Sessions(new File(ROOT, filename).getAbsolutePath());
                         homeScreen(sessions, session, uid, pass);
                     } catch (IOException ioe) {
                         System.out.println("IOException in btn; log in");
@@ -210,12 +217,12 @@ public class PrimaryView extends View {
             if (uid.length() > 0 && pass.length() > 0) {
                 Session session = new Session(uid, pass);
                 // CREATE A LOGIN FOR USER
-                String filename = "./" + uid + pass.hashCode() + ".dat";
+                String filename = uid + pass.hashCode() + ".dat";
 
                 try {
                     try {
                         // If a returning user, read in past sessions from file
-                        sessions = new Sessions(filename);
+                        sessions = new Sessions(new File(ROOT, filename).getAbsolutePath());
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(PrimaryView.class.getName()).log(Level.SEVERE, null, ex);
                         System.out.println("Logger in btn; log in");
