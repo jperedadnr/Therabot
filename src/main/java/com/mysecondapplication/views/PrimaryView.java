@@ -68,29 +68,20 @@ public class PrimaryView extends View {
         //grid.setStyle("-fx-background-color: white;");
 
         // Read in the image to be used as background to the pane
-        FileInputStream inputstream;
-        try {
-            inputstream = new FileInputStream("src/main/resources/newbackground.png");
-            Image image = new Image(inputstream);
-            inputstream.close();
-            // Specify position in pane to paste the image
-            BackgroundPosition backgroundPosition = new BackgroundPosition(
-                    // Fill area starting from upper-left corner
-                    Side.LEFT, 0, false, Side.TOP, 0, false);
-            // Associate the image with the background
-            BackgroundImage backgroundImage = new BackgroundImage(image,
-                    // If image is too small, repeat it horizontally
-                    // and vertically as needed to fill the area
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
-                    backgroundPosition, BackgroundSize.DEFAULT);
-            // Associate the background with the grid pane
-            Background background = new Background(backgroundImage);
-            grid.setBackground(background);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PrimaryView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(PrimaryView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Image image = new Image(PrimaryView.class.getResourceAsStream("/newbackground.png"));
+        // Specify position in pane to paste the image
+        BackgroundPosition backgroundPosition = new BackgroundPosition(
+                // Fill area starting from upper-left corner
+                Side.LEFT, 0, false, Side.TOP, 0, false);
+        // Associate the image with the background
+        BackgroundImage backgroundImage = new BackgroundImage(image,
+                // If image is too small, repeat it horizontally
+                // and vertically as needed to fill the area
+                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
+                backgroundPosition, BackgroundSize.DEFAULT);
+        // Associate the background with the grid pane
+        Background background = new Background(backgroundImage);
+        grid.setBackground(background);
 
         Label scenetitle = new Label("Log In");
         scenetitle.setFont(font1);
