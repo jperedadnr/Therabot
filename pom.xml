@@ -43,6 +43,11 @@
         </dependency>
         <dependency>
             <groupId>com.gluonhq.attach</groupId>
+            <artifactId>browser</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
             <artifactId>display</artifactId>
             <version>${attach.version}</version>
         </dependency>
@@ -99,6 +104,7 @@
                 <configuration>
                     <target>${client.target}</target>
                     <attachList>
+                        <list>browser</list>
                         <list>display</list>
                         <list>lifecycle</list>
                         <list>statusbar</list>
