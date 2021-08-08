@@ -1,0 +1,14 @@
+[
+  {
+  "name":"com.mysecondapplication.views.Session"
+  },
+  {
+  "name":"java.util.Date"
+  },
+  {
+  "name":"java.lang.String"
+  },
+  {
+  "name":"java.util.ArrayList"
+  }
+]
